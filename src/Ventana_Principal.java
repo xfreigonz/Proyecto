@@ -35,6 +35,11 @@ public class Ventana_Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalirActionPerformed(evt);
+            }
+        });
 
         btnClientes.setText("Clientes");
         btnClientes.addActionListener(new java.awt.event.ActionListener() {
@@ -51,6 +56,11 @@ public class Ventana_Principal extends javax.swing.JFrame {
         });
 
         btnTransporte.setText("Transportistas");
+        btnTransporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransporteActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Corbel", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -102,14 +112,23 @@ public class Ventana_Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPaquetesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaquetesActionPerformed
-        Ventana_Envios ve=new Ventana_Envios();
+        Ventana_Envios ve = new Ventana_Envios();
         ve.setVisible(true);
     }//GEN-LAST:event_btnPaquetesActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
-       Ventana_Clientes vc=new Ventana_Clientes();
-       vc.setVisible(true);
+        Ventana_Clientes vc = new Ventana_Clientes();
+        vc.setVisible(true);
     }//GEN-LAST:event_btnClientesActionPerformed
+
+    private void btnTransporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransporteActionPerformed
+        Ventana_Transportistas vt = new Ventana_Transportistas();
+        vt.setVisible(true);
+    }//GEN-LAST:event_btnTransporteActionPerformed
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     /**
      * @param args the command line arguments

@@ -2,7 +2,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
 
 
 public class Conector {
@@ -16,6 +15,7 @@ public class Conector {
     
     public void connect(){
         try{
+            
             conect = DriverManager.getConnection("jdbc:sqlite:" + url);
             if(conect != null){
                 System.out.println("Conectado");
@@ -28,7 +28,7 @@ public class Conector {
         try {        
             conect.close();
         } catch (SQLException ex) {
-            java.util.logging.Logger.getLogger(Conector.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Error al cerrar la conexion \n"+ex.getMessage());
         }
         
     }

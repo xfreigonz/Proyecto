@@ -10,6 +10,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
 
     Conector con = new Conector();
     private boolean modificar = false;
+    private int id;
 
     public Ventana_Envios() {
         initComponents();
@@ -124,9 +125,9 @@ public class Ventana_Envios extends javax.swing.JFrame {
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbTransporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(NMEnviosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(entPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11))
+                .addGroup(NMEnviosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(entPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(NMEnviosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(entDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -144,8 +145,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
 
         NMEnviosLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAceptar, btnCancelar});
 
-        setMinimumSize(new java.awt.Dimension(450, 300));
-        setPreferredSize(new java.awt.Dimension(500, 400));
+        setMinimumSize(new java.awt.Dimension(500, 400));
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Pendientes de envio"));
 
@@ -199,6 +199,11 @@ public class Ventana_Envios extends javax.swing.JFrame {
 
         btnBorrar.setText("Borrar");
         btnBorrar.setEnabled(false);
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
 
         btnVolver.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cyan_left.gif"))); // NOI18N
         btnVolver.setText("Volver");
@@ -251,20 +256,22 @@ public class Ventana_Envios extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jSeparator1))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                            .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btnBorrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEnviado, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnVolver)
-                        .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                        .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(btnBorrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEnviado, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addContainerGap())
+                        .addContainerGap())))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBorrar, btnEnviado, btnModificar, btnNuevo});
@@ -280,19 +287,19 @@ public class Ventana_Envios extends javax.swing.JFrame {
                         .addComponent(btnModificar)
                         .addGap(18, 18, 18)
                         .addComponent(btnEnviado))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBorrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
-                        .addComponent(btnVolver))
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(55, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(btnBorrar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnVolver)
+                        .addGap(27, 27, 27))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBorrar, btnEnviado, btnModificar, btnNuevo});
@@ -315,8 +322,8 @@ public class Ventana_Envios extends javax.swing.JFrame {
         try {
             con.connect();
             int fila = tablaPendientes.getSelectedRow();
-            int id = Integer.parseInt((String) tablaPendientes.getValueAt(fila, 0));
-            String sql = "UPDATE Envio SET \"Enviado\" = true WHERE  \"ID\" = ?";
+            id = Integer.parseInt("" + tablaPendientes.getValueAt(fila, 0));
+            String sql = "UPDATE Envio SET \"Enviado\" = 'true' WHERE  \"ID\" = ?";
             PreparedStatement consulta = con.conect.prepareStatement(sql);
             consulta.setInt(1, id);
             consulta.execute();
@@ -325,64 +332,106 @@ public class Ventana_Envios extends javax.swing.JFrame {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
+        btnBorrar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnEnviado.setEnabled(false);
     }//GEN-LAST:event_btnEnviadoActionPerformed
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-        // TODO add your handling code here:
+        try {
+            if (!modificar) {
+                String dniCliente = (String) cmbCliente.getSelectedItem();
+                String dniTransportista = (String) cmbTransporte.getSelectedItem();
+                String direccion = entDestino.getText();
+                int peso = Integer.parseInt(entPeso.getText());
+                con.connect();
+                String sql = "insert into Envio(DNI_Cliente,DNI_Transportista,Peso,Destino) values (?,?,?,?)";
+                PreparedStatement consulta = con.conect.prepareStatement(sql);
+                consulta.setString(1, dniCliente);
+                consulta.setString(2, dniTransportista);
+                consulta.setInt(3, peso);
+                consulta.setString(4, direccion);
+                consulta.execute();
+                con.close();
+                entDestino.setText("");
+                entPeso.setText("");
+                actualizar();
+            } else {
+                con.connect();
+                String dniCliente = (String) cmbCliente.getSelectedItem();
+                String dniTransportista = (String) cmbTransporte.getSelectedItem();
+                String direccion = entDestino.getText();
+                int peso = Integer.parseInt(entPeso.getText());
+                String sql = "UPDATE Envio SET \"Peso\" = ?, \"Destino\" = ?, \"DNI_Transportista\" = ?, \"DNI_Cliente\" = ? WHERE  \"ID\" = ?";
+                PreparedStatement consulta = con.conect.prepareStatement(sql);
+                consulta.setInt(1, peso);
+                consulta.setString(2, direccion);
+                consulta.setString(3, dniTransportista);
+                consulta.setString(4, dniCliente);
+                consulta.setInt(5, id);
+                consulta.execute();
+                con.close();
+                actualizar();
+                btnBorrar.setEnabled(false);
+                btnModificar.setEnabled(false);
+                btnEnviado.setEnabled(false);
+                NMEnvios.setVisible(false);
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        //Rellenar combo box Clientes
-        try {
-            cmbCliente.removeAllItems(); //Vaciamos el JComboBox
-            ArrayList<String> lista = new ArrayList<>();
-            lista.add("");
-            con.connect();
-            Statement consulta = con.conect.createStatement();
-            ResultSet rs = consulta.executeQuery("select * from Clientes");
-            while (rs.next()) {
-                lista.add(rs.getString("DNI"));//nombre es el campo de la base de datos
-            }
-            for (int i = 0; i < lista.size(); i++) {
-                cmbCliente.addItem(lista.get(i));
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            con.close();
-        }
-        //Rellenar Combo Box Transportistas
-        try {
-            cmbTransporte.removeAllItems(); //Vaciamos el JComboBox
-            ArrayList<String> lista = new ArrayList<>();
-            lista.add("");
-            con.connect();
-            Statement consulta = con.conect.createStatement();
-            ResultSet rs = consulta.executeQuery("select * from Transportistas");
-            while (rs.next()) {
-                lista.add(rs.getString("DNI"));//nombre es el campo de la base de datos
-            }
-            for (int i = 0; i < lista.size(); i++) {
-                cmbTransporte.addItem(lista.get(i));
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            con.close();
-        }
-        
+        rellenarComboBox();
         entPeso.setText("");
         entDestino.setText("");
         modificar = false;
+        btnBorrar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnEnviado.setEnabled(false);
         NMEnvios.setLocationRelativeTo(this);
         NMEnvios.setVisible(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        btnBorrar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnEnviado.setEnabled(false);
         NMEnvios.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        rellenarComboBox();
+        int fila = tablaPendientes.getSelectedRow();
+        id = Integer.parseInt("" + tablaPendientes.getValueAt(fila, 0));
+        cmbCliente.setSelectedItem(tablaPendientes.getValueAt(fila, 1));
+        cmbTransporte.setSelectedItem(tablaPendientes.getValueAt(fila, 2));
+        entPeso.setText("" + tablaPendientes.getValueAt(fila, 3));
+        entDestino.setText((String) tablaPendientes.getValueAt(fila, 4));
         NMEnvios.setLocationRelativeTo(this);
+        modificar = true;
+        NMEnvios.setVisible(true);
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        try {
+            con.connect();
+            int fila = tablaPendientes.getSelectedRow();
+            PreparedStatement ps = con.conect.prepareStatement("delete from Envio WHERE  \"ID\" = ?");
+            id = Integer.parseInt(""+ tablaPendientes.getValueAt(fila, 0));
+            ps.setInt(1, id);
+            ps.execute();
+            con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            con.close();
+        }
+        actualizar();
+        btnBorrar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnEnviado.setEnabled(false);
+    }//GEN-LAST:event_btnBorrarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame NMEnvios;
@@ -414,7 +463,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) tablaPendientes.getModel();
             con.connect();
             Statement consulta = con.conect.createStatement();
-            ResultSet rs = consulta.executeQuery("select * from Envio where Enviado=false");
+            ResultSet rs = consulta.executeQuery("select * from Envio where Enviado='false'");
 
             while (model.getRowCount() > 0) {
                 model.removeRow(0);
@@ -438,7 +487,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) tablaEnviados.getModel();
             con.connect();
             Statement consulta = con.conect.createStatement();
-            ResultSet rs = consulta.executeQuery("select * from Envio where Enviado=true");
+            ResultSet rs = consulta.executeQuery("select * from Envio where Enviado='true'");
 
             while (model.getRowCount() > 0) {
                 model.removeRow(0);
@@ -453,6 +502,44 @@ public class Ventana_Envios extends javax.swing.JFrame {
                 model.addRow(datos);
             }
             con.close();
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            con.close();
+        }
+    }
+
+    private void rellenarComboBox() {
+        try {
+            cmbCliente.removeAllItems(); //Vaciamos el JComboBox
+            ArrayList<String> lista = new ArrayList<>();
+            lista.add("");
+            con.connect();
+            Statement consulta = con.conect.createStatement();
+            ResultSet rs = consulta.executeQuery("select * from Clientes");
+            while (rs.next()) {
+                lista.add(rs.getString("DNI"));//nombre es el campo de la base de datos
+            }
+            for (int i = 0; i < lista.size(); i++) {
+                cmbCliente.addItem(lista.get(i));
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            con.close();
+        }
+        //Rellenar Combo Box Transportistas
+        try {
+            cmbTransporte.removeAllItems(); //Vaciamos el JComboBox
+            ArrayList<String> lista = new ArrayList<>();
+            lista.add("");
+            con.connect();
+            Statement consulta = con.conect.createStatement();
+            ResultSet rs = consulta.executeQuery("select * from Transportistas");
+            while (rs.next()) {
+                lista.add(rs.getString("DNI"));//nombre es el campo de la base de datos
+            }
+            for (int i = 0; i < lista.size(); i++) {
+                cmbTransporte.addItem(lista.get(i));
+            }
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             con.close();

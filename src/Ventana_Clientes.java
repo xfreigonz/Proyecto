@@ -44,7 +44,8 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         btnBorrar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
-        jFrame1.setMinimumSize(new java.awt.Dimension(400, 400));
+        jFrame1.setMinimumSize(new java.awt.Dimension(500, 400));
+        jFrame1.setPreferredSize(new java.awt.Dimension(500, 400));
 
         jLabel1.setText("Nombre");
 
@@ -82,14 +83,8 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         jFrame1.getContentPane().setLayout(jFrame1Layout);
         jFrame1Layout.setHorizontalGroup(
             jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jFrame1Layout.createSequentialGroup()
-                .addGap(68, 68, 68)
-                .addComponent(btAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(33, Short.MAX_VALUE)
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jFrame1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -117,6 +112,12 @@ public class Ventana_Clientes extends javax.swing.JFrame {
                             .addComponent(entDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(entNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(49, 49, 49))
+            .addGroup(jFrame1Layout.createSequentialGroup()
+                .addGap(121, 121, 121)
+                .addComponent(btAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jFrame1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {entApellidos, entDireccion, entDni, entMail, entNombre, entTelefono, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel7});
@@ -126,7 +127,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         jFrame1Layout.setVerticalGroup(
             jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jFrame1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addContainerGap()
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(entDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -150,11 +151,11 @@ public class Ventana_Clientes extends javax.swing.JFrame {
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(entMail, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btAceptar))
-                .addContainerGap())
+                .addContainerGap(43, Short.MAX_VALUE))
         );
 
         jFrame1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {entApellidos, entDireccion, entDni, entMail, entNombre, entTelefono, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel7});
@@ -162,6 +163,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         jFrame1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btAceptar, btnCancelar});
 
         setMinimumSize(new java.awt.Dimension(450, 300));
+        setPreferredSize(new java.awt.Dimension(500, 400));
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de clientes"));
 
@@ -247,7 +249,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(btnVolver)
-                .addContainerGap(377, Short.MAX_VALUE))
+                .addContainerGap(380, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBorrar, btnModificar, btnNuevo});
@@ -263,7 +265,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
                         .addComponent(btnModificar)
                         .addGap(18, 18, 18)
                         .addComponent(btnBorrar)
-                        .addGap(0, 121, Short.MAX_VALUE))
+                        .addGap(0, 198, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnVolver)
@@ -273,6 +275,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBorrar, btnModificar, btnNuevo});
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
@@ -280,6 +283,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        entDni.setBackground(null);
         entDni.setText("");
         entApellidos.setText("");
         entDireccion.setText("");
@@ -288,6 +292,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         entTelefono.setText("");
         entDni.setEnabled(true);
         modificar = false;
+        jFrame1.setLocationRelativeTo(this);
         jFrame1.setVisible(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
@@ -301,6 +306,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         entTelefono.setText("" + tablaClientes.getValueAt(fila, 4));
         entMail.setText((String) tablaClientes.getValueAt(fila, 5));
         modificar = true;
+        jFrame1.setLocationRelativeTo(this);
         jFrame1.setVisible(true);
     }//GEN-LAST:event_btnModificarActionPerformed
 

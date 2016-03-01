@@ -26,6 +26,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
     public Ventana_Transportistas() {
         initComponents();
         actualizar();
+        pack();
     }
 
     /**
@@ -57,7 +58,8 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
         btnBorrar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
 
-        jFrame1.setMinimumSize(new java.awt.Dimension(400, 300));
+        jFrame1.setMinimumSize(new java.awt.Dimension(500, 400));
+        jFrame1.setPreferredSize(new java.awt.Dimension(500, 400));
 
         jLabel1.setText("Nombre");
 
@@ -96,35 +98,35 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
             .addGroup(jFrame1Layout.createSequentialGroup()
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jFrame1Layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
-                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE)
+                        .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(jFrame1Layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
+                        .addGap(97, 97, 97)
                         .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jFrame1Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(entNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jFrame1Layout.createSequentialGroup()
-                                    .addComponent(jLabel4)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(entTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jFrame1Layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(entDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jFrame1Layout.createSequentialGroup()
+                                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel2)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(entApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jFrame1Layout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(entDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(53, 53, 53))
+                                    .addComponent(jLabel7))
+                                .addGap(33, 33, 33)
+                                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(entNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(entApellidos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(entDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jFrame1Layout.createSequentialGroup()
+                                    .addGap(115, 115, 115)
+                                    .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(entDireccion)
+                                        .addComponent(entTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addGroup(jFrame1Layout.createSequentialGroup()
+                                        .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(66, 66, 66)
+                                        .addComponent(btnCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         jFrame1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel7});
@@ -136,7 +138,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
         jFrame1Layout.setVerticalGroup(
             jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jFrame1Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
+                .addGap(31, 31, 31)
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(entDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -155,19 +157,20 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(entTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(entTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAceptar))
-                .addContainerGap())
+                    .addComponent(btnAceptar)
+                    .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         jFrame1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {entApellidos, entDNI, entDireccion, entNombre, entTelefono, jLabel1, jLabel2, jLabel3, jLabel4, jLabel7});
 
         jFrame1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAceptar, btnCancelar});
 
-        setMinimumSize(new java.awt.Dimension(450, 300));
+        setMinimumSize(new java.awt.Dimension(500, 400));
+        setPreferredSize(new java.awt.Dimension(500, 400));
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de transportistas"));
 
@@ -197,6 +200,8 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaTranportistas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tablaTranportistas.setMaximumSize(null);
         tablaTranportistas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaTranportistasMouseClicked(evt);
@@ -277,6 +282,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBorrar, btnModificar, btnNuevo});
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -288,7 +294,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
                 String nombre = entNombre.getText();
                 int telefono = Integer.parseInt(entTelefono.getText());
                 con.connect();
-                String sql = "insert into Clientes(DNI,Nombre,Apellidos,Direccion,Telefono) values (?,?,?,?,?)";
+                String sql = "insert into Transportistas(DNI,Nombre,Apellidos,Direccion,Telefono) values (?,?,?,?,?)";
                 PreparedStatement consulta = con.conect.prepareStatement(sql);
                 consulta.setString(1, dni);
                 consulta.setString(2, nombre);
@@ -297,6 +303,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
                 consulta.setInt(5, telefono);
                 consulta.execute();
                 con.close();
+                entDNI.setText("");
                 entApellidos.setText("");
                 entDireccion.setText("");
                 entNombre.setText("");
@@ -309,7 +316,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
                 String calle = entDireccion.getText();
                 String nombre = entNombre.getText();
                 int telefono = Integer.parseInt(entTelefono.getText());
-                String sql = "UPDATE Clientes SET \"Nombre\" = ?, \"Apellidos\" = ?, \"Direccion\" = ?, \"Telefono\" = ? WHERE  \"DNI\" = ?";
+                String sql = "UPDATE Transportistas SET \"Nombre\" = ?, \"Apellidos\" = ?, \"Direccion\" = ?, \"Telefono\" = ? WHERE  \"DNI\" = ?";
                 PreparedStatement consulta = con.conect.prepareStatement(sql);
                 consulta.setString(5, dni);
                 consulta.setString(1, nombre);
@@ -318,11 +325,14 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
                 consulta.setInt(4, telefono);
                 consulta.execute();
                 con.close();
+                entDNI.setText("");
                 entApellidos.setText("");
                 entDireccion.setText("");
                 entNombre.setText("");
                 entTelefono.setText("");
                 actualizar();
+                btnModificar.setEnabled(false);
+                btnBorrar.setEnabled(false);
                 jFrame1.setVisible(false);
             }
         } catch (SQLException ex) {
@@ -334,7 +344,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
         try {
             con.connect();
             int fila = tablaTranportistas.getSelectedRow();
-            PreparedStatement ps = con.conect.prepareStatement("delete from Clientes WHERE  \"DNI\" = ?");
+            PreparedStatement ps = con.conect.prepareStatement("delete from Transportistas WHERE  \"DNI\" = ?");
             String dni = (String) tablaTranportistas.getValueAt(fila, 0);
             ps.setString(1, dni);
             ps.execute();
@@ -343,6 +353,8 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
             con.close();
         }
+        btnModificar.setEnabled(false);
+        btnBorrar.setEnabled(false);
         actualizar();
     }//GEN-LAST:event_btnBorrarActionPerformed
 
@@ -354,6 +366,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
         entTelefono.setText("");
         entDNI.setEnabled(true);
         modificar = false;
+        jFrame1.setLocationRelativeTo(this);
         jFrame1.setVisible(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
@@ -371,10 +384,13 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
         entDireccion.setText((String) tablaTranportistas.getValueAt(fila, 3));
         entTelefono.setText("" + tablaTranportistas.getValueAt(fila, 4));
         modificar = true;
+        jFrame1.setLocationRelativeTo(this);
         jFrame1.setVisible(true);
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        btnModificar.setEnabled(false);
+        btnBorrar.setEnabled(false);
         jFrame1.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 

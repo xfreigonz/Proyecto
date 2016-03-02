@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -13,7 +14,6 @@ import javax.swing.table.DefaultTableModel;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author usuario
@@ -22,7 +22,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
 
     Conector con = new Conector();
     private boolean modificar = false;
-    
+
     public Ventana_Transportistas() {
         initComponents();
         actualizar();
@@ -59,7 +59,6 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
         btnVolver = new javax.swing.JButton();
 
         jFrame1.setMinimumSize(new java.awt.Dimension(500, 400));
-        jFrame1.setPreferredSize(new java.awt.Dimension(500, 400));
 
         jLabel1.setText("Nombre");
 
@@ -282,27 +281,35 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         try {
             if (!modificar) {
-                String dni = entDNI.getText();
-                String apellidos = entApellidos.getText();
-                String calle = entDireccion.getText();
-                String nombre = entNombre.getText();
-                int telefono = Integer.parseInt(entTelefono.getText());
-                con.connect();
-                String sql = "insert into Transportistas(DNI,Nombre,Apellidos,Direccion,Telefono) values (?,?,?,?,?)";
-                PreparedStatement consulta = con.conect.prepareStatement(sql);
-                consulta.setString(1, dni);
-                consulta.setString(2, nombre);
-                consulta.setString(3, apellidos);
-                consulta.setString(4, calle);
-                consulta.setInt(5, telefono);
-                consulta.execute();
-                con.close();
-                entDNI.setText("");
-                entApellidos.setText("");
-                entDireccion.setText("");
-                entNombre.setText("");
-                entTelefono.setText("");
-                actualizar();
+                if (entDNI.getBackground() == Color.GREEN) {
+                    String dni = entDNI.getText();
+                    String apellidos = entApellidos.getText();
+                    String calle = entDireccion.getText();
+                    String nombre = entNombre.getText();
+                    int telefono = Integer.parseInt(entTelefono.getText());
+                    if ((!nombre.isEmpty()) && (!calle.isEmpty())) {
+                        con.connect();
+                        String sql = "insert into Transportistas(DNI,Nombre,Apellidos,Direccion,Telefono) values (?,?,?,?,?)";
+                        PreparedStatement consulta = con.conect.prepareStatement(sql);
+                        consulta.setString(1, dni);
+                        consulta.setString(2, nombre);
+                        consulta.setString(3, apellidos);
+                        consulta.setString(4, calle);
+                        consulta.setInt(5, telefono);
+                        consulta.execute();
+                        con.close();
+                        entDNI.setText("");
+                        entApellidos.setText("");
+                        entDireccion.setText("");
+                        entNombre.setText("");
+                        entTelefono.setText("");
+                        actualizar();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Debe introducir un nombre y una direccion", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Debe introducir un DNI valido", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
                 con.connect();
                 String dni = entDNI.getText();
@@ -310,27 +317,33 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
                 String calle = entDireccion.getText();
                 String nombre = entNombre.getText();
                 int telefono = Integer.parseInt(entTelefono.getText());
-                String sql = "UPDATE Transportistas SET \"Nombre\" = ?, \"Apellidos\" = ?, \"Direccion\" = ?, \"Telefono\" = ? WHERE  \"DNI\" = ?";
-                PreparedStatement consulta = con.conect.prepareStatement(sql);
-                consulta.setString(5, dni);
-                consulta.setString(1, nombre);
-                consulta.setString(2, apellidos);
-                consulta.setString(3, calle);
-                consulta.setInt(4, telefono);
-                consulta.execute();
-                con.close();
-                entDNI.setText("");
-                entApellidos.setText("");
-                entDireccion.setText("");
-                entNombre.setText("");
-                entTelefono.setText("");
-                actualizar();
-                btnModificar.setEnabled(false);
-                btnBorrar.setEnabled(false);
-                jFrame1.setVisible(false);
+                if ((!nombre.isEmpty()) && (!calle.isEmpty())) {
+                    String sql = "UPDATE Transportistas SET \"Nombre\" = ?, \"Apellidos\" = ?, \"Direccion\" = ?, \"Telefono\" = ? WHERE  \"DNI\" = ?";
+                    PreparedStatement consulta = con.conect.prepareStatement(sql);
+                    consulta.setString(5, dni);
+                    consulta.setString(1, nombre);
+                    consulta.setString(2, apellidos);
+                    consulta.setString(3, calle);
+                    consulta.setInt(4, telefono);
+                    consulta.execute();
+                    con.close();
+                    entDNI.setText("");
+                    entApellidos.setText("");
+                    entDireccion.setText("");
+                    entNombre.setText("");
+                    entTelefono.setText("");
+                    actualizar();
+                    btnModificar.setEnabled(false);
+                    btnBorrar.setEnabled(false);
+                    jFrame1.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Debe introducir un nombre y una direccion", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El telefono debe contener solo numeros", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -417,7 +430,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
             entDNI.setBackground(Color.red);
         }
     }//GEN-LAST:event_entDnicomprobarDNI
-             
+
     private void actualizar() {
         try {
             DefaultTableModel model = (DefaultTableModel) tablaTranportistas.getModel();

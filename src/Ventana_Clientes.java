@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Ventana_Clientes extends javax.swing.JFrame {
@@ -163,7 +164,6 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         jFrame1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btAceptar, btnCancelar});
 
         setMinimumSize(new java.awt.Dimension(450, 300));
-        setPreferredSize(new java.awt.Dimension(500, 400));
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de clientes"));
 
@@ -334,30 +334,38 @@ public class Ventana_Clientes extends javax.swing.JFrame {
     private void btAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAceptarActionPerformed
         try {
             if (!modificar) {
-                String dni = entDni.getText();
-                String apellidos = entApellidos.getText();
-                String calle = entDireccion.getText();
-                String nombre = entNombre.getText();
-                String mail = entMail.getText();
-                int telefono = Integer.parseInt(entTelefono.getText());
-                con.connect();
-                String sql = "insert into Clientes(DNI,Nombre,Apellidos,Direccion,Telefono,Mail) values (?,?,?,?,?,?)";
-                PreparedStatement consulta = con.conect.prepareStatement(sql);
-                consulta.setString(1, dni);
-                consulta.setString(2, nombre);
-                consulta.setString(3, apellidos);
-                consulta.setString(4, calle);
-                consulta.setInt(5, telefono);
-                consulta.setString(6, mail);
-                consulta.execute();
-                con.close();
-                entDni.setText("");
-                entApellidos.setText("");
-                entDireccion.setText("");
-                entNombre.setText("");
-                entMail.setText("");
-                entTelefono.setText("");
-                actualizar();
+                if (entDni.getBackground() == Color.GREEN) {
+                    String dni = entDni.getText();
+                    String apellidos = entApellidos.getText();
+                    String calle = entDireccion.getText();
+                    String nombre = entNombre.getText();
+                    String mail = entMail.getText();
+                    int telefono = Integer.parseInt(entTelefono.getText());
+                    if ((!nombre.isEmpty()) && (!calle.isEmpty())) {
+                        con.connect();
+                        String sql = "insert into Clientes(DNI,Nombre,Apellidos,Direccion,Telefono,Mail) values (?,?,?,?,?,?)";
+                        PreparedStatement consulta = con.conect.prepareStatement(sql);
+                        consulta.setString(1, dni);
+                        consulta.setString(2, nombre);
+                        consulta.setString(3, apellidos);
+                        consulta.setString(4, calle);
+                        consulta.setInt(5, telefono);
+                        consulta.setString(6, mail);
+                        consulta.execute();
+                        con.close();
+                        entDni.setText("");
+                        entApellidos.setText("");
+                        entDireccion.setText("");
+                        entNombre.setText("");
+                        entMail.setText("");
+                        entTelefono.setText("");
+                        actualizar();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Debe introducir un nombre y una direccion", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Debe introducir un DNI valido", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
                 con.connect();
                 String dni = entDni.getText();
@@ -366,21 +374,27 @@ public class Ventana_Clientes extends javax.swing.JFrame {
                 String nombre = entNombre.getText();
                 String mail = entMail.getText();
                 int telefono = Integer.parseInt(entTelefono.getText());
-                String sql = "UPDATE Clientes SET \"Nombre\" = ?, \"Apellidos\" = ?, \"Direccion\" = ?, \"Telefono\" = ?, \"Mail\" = ? WHERE  \"DNI\" = ?";
-                PreparedStatement consulta = con.conect.prepareStatement(sql);
-                consulta.setString(6, dni);
-                consulta.setString(1, nombre);
-                consulta.setString(2, apellidos);
-                consulta.setString(3, calle);
-                consulta.setInt(4, telefono);
-                consulta.setString(5, mail);
-                consulta.execute();
-                con.close();
-                actualizar();
-                jFrame1.setVisible(false);
+                if ((!nombre.isEmpty()) && (!calle.isEmpty())) {
+                    String sql = "UPDATE Clientes SET \"Nombre\" = ?, \"Apellidos\" = ?, \"Direccion\" = ?, \"Telefono\" = ?, \"Mail\" = ? WHERE  \"DNI\" = ?";
+                    PreparedStatement consulta = con.conect.prepareStatement(sql);
+                    consulta.setString(6, dni);
+                    consulta.setString(1, nombre);
+                    consulta.setString(2, apellidos);
+                    consulta.setString(3, calle);
+                    consulta.setInt(4, telefono);
+                    consulta.setString(5, mail);
+                    consulta.execute();
+                    con.close();
+                    actualizar();
+                    jFrame1.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Debe introducir un nombre y una direccion", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El telefono debe contener solo numeros", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btAceptarActionPerformed
 

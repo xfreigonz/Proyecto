@@ -488,7 +488,6 @@ public class Ventana_Envios extends javax.swing.JFrame {
             con.connect();
             Statement consulta = con.conect.createStatement();
             ResultSet rs = consulta.executeQuery("select * from Envio where Enviado='true'");
-
             while (model.getRowCount() > 0) {
                 model.removeRow(0);
             }

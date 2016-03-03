@@ -47,6 +47,11 @@ public class Ventana_Clientes extends javax.swing.JFrame {
 
         jFrame1.setMinimumSize(new java.awt.Dimension(500, 400));
         jFrame1.setPreferredSize(new java.awt.Dimension(500, 400));
+        jFrame1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                jFrame1ComponentHidden(evt);
+            }
+        });
 
         jLabel1.setText("Nombre");
 
@@ -164,6 +169,11 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         jFrame1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btAceptar, btnCancelar});
 
         setMinimumSize(new java.awt.Dimension(450, 300));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                formComponentHidden(evt);
+            }
+        });
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de clientes"));
 
@@ -292,6 +302,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         entTelefono.setText("");
         entDni.setEnabled(true);
         modificar = false;
+        this.setEnabled(false);
         jFrame1.setLocationRelativeTo(this);
         jFrame1.setVisible(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
@@ -306,24 +317,30 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         entTelefono.setText("" + tablaClientes.getValueAt(fila, 4));
         entMail.setText((String) tablaClientes.getValueAt(fila, 5));
         modificar = true;
+        this.setEnabled(false);
         jFrame1.setLocationRelativeTo(this);
         jFrame1.setVisible(true);
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        try {
-            con.connect();
-            int fila = tablaClientes.getSelectedRow();
-            PreparedStatement ps = con.conect.prepareStatement("delete from Clientes WHERE  \"DNI\" = ?");
-            String dni = (String) tablaClientes.getValueAt(fila, 0);
-            ps.setString(1, dni);
-            ps.execute();
-            con.close();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            con.close();
+        int respuesta = JOptionPane.showConfirmDialog(null, "Esta seguro que quiere borrarlo");
+        if (respuesta == 0) {
+            try {
+                con.connect();
+                int fila = tablaClientes.getSelectedRow();
+                PreparedStatement ps = con.conect.prepareStatement("delete from Clientes WHERE  \"DNI\" = ?");
+                String dni = (String) tablaClientes.getValueAt(fila, 0);
+                ps.setString(1, dni);
+                ps.execute();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+                con.close();
+            }
         }
         actualizar();
+        btnModificar.setEnabled(false);
+        btnBorrar.setEnabled(false);
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
@@ -359,6 +376,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
                         entNombre.setText("");
                         entMail.setText("");
                         entTelefono.setText("");
+                        entDni.setBackground(null);
                         actualizar();
                     } else {
                         JOptionPane.showMessageDialog(null, "Debe introducir un nombre y una direccion", "Error", JOptionPane.ERROR_MESSAGE);
@@ -386,6 +404,8 @@ public class Ventana_Clientes extends javax.swing.JFrame {
                     consulta.execute();
                     con.close();
                     actualizar();
+                    this.setEnabled(true);
+                    this.setVisible(true);
                     jFrame1.setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(null, "Debe introducir un nombre y una direccion", "Error", JOptionPane.ERROR_MESSAGE);
@@ -396,10 +416,18 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "El telefono debe contener solo numeros", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        btnModificar.setEnabled(false);
+        btnBorrar.setEnabled(false);
+
     }//GEN-LAST:event_btAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        btnModificar.setEnabled(false);
+        btnBorrar.setEnabled(false);
         jFrame1.setVisible(false);
+        entDni.setBackground(null);
+        this.setEnabled(true);
+        this.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void entDnicomprobarDNI(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entDnicomprobarDNI
@@ -427,6 +455,18 @@ public class Ventana_Clientes extends javax.swing.JFrame {
             entDni.setBackground(Color.red);
         }
     }//GEN-LAST:event_entDnicomprobarDNI
+
+    private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        Ventana_Principal vp = new Ventana_Principal();
+        vp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_formComponentHidden
+
+    private void jFrame1ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jFrame1ComponentHidden
+        entDni.setBackground(null);
+        this.setEnabled(true);
+        this.setVisible(true);
+    }//GEN-LAST:event_jFrame1ComponentHidden
     private void actualizar() {
         try {
             DefaultTableModel model = (DefaultTableModel) tablaClientes.getModel();

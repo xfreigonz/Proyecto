@@ -59,6 +59,11 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
         btnVolver = new javax.swing.JButton();
 
         jFrame1.setMinimumSize(new java.awt.Dimension(500, 400));
+        jFrame1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                jFrame1ComponentHidden(evt);
+            }
+        });
 
         jLabel1.setText("Nombre");
 
@@ -164,6 +169,11 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
 
         setMinimumSize(new java.awt.Dimension(500, 400));
         setPreferredSize(new java.awt.Dimension(500, 400));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                formComponentHidden(evt);
+            }
+        });
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Lista de transportistas"));
 
@@ -240,7 +250,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -260,7 +270,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 27, Short.MAX_VALUE))
+                        .addGap(0, 99, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -345,27 +355,36 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "El telefono debe contener solo numeros", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        btnModificar.setEnabled(false);
+        btnBorrar.setEnabled(false);
+        this.setEnabled(true);
+        this.setVisible(true);
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        try {
-            con.connect();
-            int fila = tablaTranportistas.getSelectedRow();
-            PreparedStatement ps = con.conect.prepareStatement("delete from Transportistas WHERE  \"DNI\" = ?");
-            String dni = (String) tablaTranportistas.getValueAt(fila, 0);
-            ps.setString(1, dni);
-            ps.execute();
-            con.close();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            con.close();
+        int respuesta = JOptionPane.showConfirmDialog(null, "Esta seguro que quiere borrarlo");
+        if (respuesta == 0) {
+            try {
+                con.connect();
+                int fila = tablaTranportistas.getSelectedRow();
+                PreparedStatement ps = con.conect.prepareStatement("delete from Transportistas WHERE  \"DNI\" = ?");
+                String dni = (String) tablaTranportistas.getValueAt(fila, 0);
+                ps.setString(1, dni);
+                ps.execute();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+                con.close();
+            }
         }
         btnModificar.setEnabled(false);
         btnBorrar.setEnabled(false);
         actualizar();
+        this.setEnabled(true);
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        entDNI.setBackground(null);
         entDNI.setText("");
         entApellidos.setText("");
         entDireccion.setText("");
@@ -373,6 +392,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
         entTelefono.setText("");
         entDNI.setEnabled(true);
         modificar = false;
+        this.setEnabled(false);
         jFrame1.setLocationRelativeTo(this);
         jFrame1.setVisible(true);
     }//GEN-LAST:event_btnNuevoActionPerformed
@@ -391,6 +411,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
         entDireccion.setText((String) tablaTranportistas.getValueAt(fila, 3));
         entTelefono.setText("" + tablaTranportistas.getValueAt(fila, 4));
         modificar = true;
+        this.setEnabled(false);
         jFrame1.setLocationRelativeTo(this);
         jFrame1.setVisible(true);
     }//GEN-LAST:event_btnModificarActionPerformed
@@ -399,6 +420,8 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
         btnModificar.setEnabled(false);
         btnBorrar.setEnabled(false);
         jFrame1.setVisible(false);
+        this.setEnabled(true);
+        this.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
@@ -430,6 +453,18 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
             entDNI.setBackground(Color.red);
         }
     }//GEN-LAST:event_entDnicomprobarDNI
+
+    private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        Ventana_Principal vp = new Ventana_Principal();
+        vp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_formComponentHidden
+
+    private void jFrame1ComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jFrame1ComponentHidden
+        entDNI.setBackground(null);
+        this.setEnabled(true);
+        this.setVisible(true);
+    }//GEN-LAST:event_jFrame1ComponentHidden
 
     private void actualizar() {
         try {

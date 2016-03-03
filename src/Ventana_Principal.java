@@ -116,16 +116,19 @@ public class Ventana_Principal extends javax.swing.JFrame {
     private void btnPaquetesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPaquetesActionPerformed
         Ventana_Envios ve = new Ventana_Envios();
         ve.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnPaquetesActionPerformed
 
     private void btnClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClientesActionPerformed
         Ventana_Clientes vc = new Ventana_Clientes();
         vc.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnClientesActionPerformed
 
     private void btnTransporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransporteActionPerformed
         Ventana_Transportistas vt = new Ventana_Transportistas();
         vt.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnTransporteActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed

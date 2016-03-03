@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Ventana_Envios extends javax.swing.JFrame {
@@ -50,6 +51,11 @@ public class Ventana_Envios extends javax.swing.JFrame {
 
         NMEnvios.setMinimumSize(new java.awt.Dimension(500, 400));
         NMEnvios.setPreferredSize(new java.awt.Dimension(500, 400));
+        NMEnvios.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                NMEnviosComponentHidden(evt);
+            }
+        });
 
         jLabel10.setText("DNI_Transportista");
 
@@ -146,6 +152,11 @@ public class Ventana_Envios extends javax.swing.JFrame {
         NMEnviosLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAceptar, btnCancelar});
 
         setMinimumSize(new java.awt.Dimension(500, 400));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                formComponentHidden(evt);
+            }
+        });
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Pendientes de envio"));
 
@@ -319,6 +330,8 @@ public class Ventana_Envios extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaPendientesMouseClicked
 
     private void btnEnviadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviadoActionPerformed
+        int respuesta = JOptionPane.showConfirmDialog(null, "¿El paquete ha sido enviado?");
+        if (respuesta == 0) {
         try {
             con.connect();
             int fila = tablaPendientes.getSelectedRow();
@@ -331,7 +344,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
             actualizar();
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
-        }
+        }}
         btnBorrar.setEnabled(false);
         btnModificar.setEnabled(false);
         btnEnviado.setEnabled(false);
@@ -372,6 +385,8 @@ public class Ventana_Envios extends javax.swing.JFrame {
                 consulta.execute();
                 con.close();
                 actualizar();
+                this.setEnabled(true);
+                this.setVisible(true);
                 btnBorrar.setEnabled(false);
                 btnModificar.setEnabled(false);
                 btnEnviado.setEnabled(false);
@@ -392,6 +407,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
         btnEnviado.setEnabled(false);
         NMEnvios.setLocationRelativeTo(this);
         NMEnvios.setVisible(true);
+        this.setEnabled(false);
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -399,6 +415,8 @@ public class Ventana_Envios extends javax.swing.JFrame {
         btnModificar.setEnabled(false);
         btnEnviado.setEnabled(false);
         NMEnvios.setVisible(false);
+        this.setEnabled(true);
+        this.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
@@ -412,26 +430,41 @@ public class Ventana_Envios extends javax.swing.JFrame {
         NMEnvios.setLocationRelativeTo(this);
         modificar = true;
         NMEnvios.setVisible(true);
+        this.setEnabled(false);
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-        try {
-            con.connect();
-            int fila = tablaPendientes.getSelectedRow();
-            PreparedStatement ps = con.conect.prepareStatement("delete from Envio WHERE  \"ID\" = ?");
-            id = Integer.parseInt(""+ tablaPendientes.getValueAt(fila, 0));
-            ps.setInt(1, id);
-            ps.execute();
-            con.close();
-        } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
-            con.close();
+        int respuesta = JOptionPane.showConfirmDialog(null, "Esta seguro que quiere borrarlo");
+        if (respuesta == 0) {
+            try {
+                con.connect();
+                int fila = tablaPendientes.getSelectedRow();
+                PreparedStatement ps = con.conect.prepareStatement("delete from Envio WHERE  \"ID\" = ?");
+                id = Integer.parseInt("" + tablaPendientes.getValueAt(fila, 0));
+                ps.setInt(1, id);
+                ps.execute();
+                con.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+                con.close();
+            }
         }
         actualizar();
         btnBorrar.setEnabled(false);
         btnModificar.setEnabled(false);
         btnEnviado.setEnabled(false);
     }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        Ventana_Principal vp = new Ventana_Principal();
+        vp.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_formComponentHidden
+
+    private void NMEnviosComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_NMEnviosComponentHidden
+        this.setEnabled(true);
+        this.setVisible(true);
+    }//GEN-LAST:event_NMEnviosComponentHidden
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame NMEnvios;

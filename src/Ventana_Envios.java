@@ -1,9 +1,17 @@
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileOutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -12,6 +20,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
     Conector con = new Conector();
     private boolean modificar = false;
     private int id;
+    String ruta="";
 
     public Ventana_Envios() {
         initComponents();
@@ -48,9 +57,9 @@ public class Ventana_Envios extends javax.swing.JFrame {
         btnEnviado = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaEnviados = new javax.swing.JTable();
+        btnFactura = new javax.swing.JButton();
 
         NMEnvios.setMinimumSize(new java.awt.Dimension(500, 400));
-        NMEnvios.setPreferredSize(new java.awt.Dimension(500, 400));
         NMEnvios.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {
                 NMEnviosComponentHidden(evt);
@@ -261,7 +270,20 @@ public class Ventana_Envios extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaEnviados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaEnviadosMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tablaEnviados);
+
+        btnFactura.setText("Factura");
+        btnFactura.setEnabled(false);
+        btnFactura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFacturaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -270,22 +292,27 @@ public class Ventana_Envios extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
                     .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                            .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(btnBorrar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEnviado, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnVolver)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(btnNuevo, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                                .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnEnviado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(btnVolver)
+                            .addContainerGap()))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnBorrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnFactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addContainerGap())))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBorrar, btnEnviado, btnModificar, btnNuevo});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBorrar, btnEnviado, btnFactura, btnModificar, btnNuevo});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -293,27 +320,30 @@ public class Ventana_Envios extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(btnNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnModificar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEnviado))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEnviado)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnBorrar)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(55, Short.MAX_VALUE))
+                        .addContainerGap(44, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnBorrar)
+                        .addComponent(btnFactura, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnVolver)
                         .addGap(27, 27, 27))))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBorrar, btnEnviado, btnModificar, btnNuevo});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBorrar, btnEnviado, btnFactura, btnModificar, btnNuevo});
 
         pack();
         setLocationRelativeTo(null);
@@ -327,6 +357,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
         btnBorrar.setEnabled(true);
         btnModificar.setEnabled(true);
         btnEnviado.setEnabled(true);
+        btnFactura.setEnabled(false);
     }//GEN-LAST:event_tablaPendientesMouseClicked
 
     private void btnEnviadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviadoActionPerformed
@@ -466,12 +497,59 @@ public class Ventana_Envios extends javax.swing.JFrame {
         this.setVisible(true);
     }//GEN-LAST:event_NMEnviosComponentHidden
 
+    private void btnFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturaActionPerformed
+        int fila = tablaEnviados.getSelectedRow();
+        
+        Document documento=new Document();
+        FileOutputStream ficheroPDF;
+        String id="" + tablaEnviados.getValueAt(fila, 0);
+        try{
+            ruta="C:\\Users\\usuario\\Desktop\\Facturas\\Factura_"+id+".pdf";
+            ficheroPDF=new FileOutputStream(ruta);
+            PdfWriter.getInstance(documento, ficheroPDF).setInitialLeading(20);
+        }catch(Exception e){
+            
+        }
+        try{
+            documento.open();
+            documento.add(new Paragraph("Factura "+id));
+            documento.add(new Paragraph(""));
+            
+            //Crear tabla con numero de columnas
+            PdfPTable tabla=new PdfPTable(2);
+            con.connect();
+            PreparedStatement consulta = con.conect.prepareStatement("select * from Clientes where DNI=?");
+            consulta.setString(1, (String)tablaEnviados.getValueAt(fila, 1));
+            ResultSet rs=consulta.executeQuery();
+            //Añadir celda
+            tabla.addCell("DNI: "+rs.getString(1));
+            tabla.addCell("Nombre: "+rs.getString(2)+" "+rs.getString(3));
+            tabla.addCell("Direccion: "+rs.getString(4));
+            tabla.addCell("telefono: "+rs.getInt(5));
+            //3.5 + 2.5€/kg
+            documento.add(tabla);
+            con.close();
+            documento.close();
+            
+        } catch (DocumentException ex) {
+        } catch (SQLException ex) {
+        }
+    }//GEN-LAST:event_btnFacturaActionPerformed
+
+    private void tablaEnviadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEnviadosMouseClicked
+        btnFactura.setEnabled(true);
+        btnBorrar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        btnEnviado.setEnabled(false);
+    }//GEN-LAST:event_tablaEnviadosMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFrame NMEnvios;
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEnviado;
+    private javax.swing.JButton btnFactura;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnVolver;

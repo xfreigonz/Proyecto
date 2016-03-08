@@ -167,8 +167,8 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
 
         jFrame1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAceptar, btnCancelar});
 
+        setTitle("Transportistas");
         setMinimumSize(new java.awt.Dimension(500, 400));
-        setPreferredSize(new java.awt.Dimension(500, 400));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {
                 formComponentHidden(evt);
@@ -291,6 +291,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         try {
             if (!modificar) {
+                //Si se pulso el boton nuevo crea un nuevo transportista
                 if (entDNI.getBackground() == Color.GREEN) {
                     String dni = entDNI.getText();
                     String apellidos = entApellidos.getText();
@@ -318,9 +319,11 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Debe introducir un nombre y una direccion", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
+                    //Mensaje de error en caso de que el DNI no se valido
                     JOptionPane.showMessageDialog(null, "Debe introducir un DNI valido", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
+                //Si se pulso el boton modificar modifica el cliente
                 con.connect();
                 String dni = entDNI.getText();
                 String apellidos = entApellidos.getText();
@@ -347,6 +350,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
                     btnBorrar.setEnabled(false);
                     jFrame1.setVisible(false);
                 } else {
+                    //Mensaje de error en caso de que no se indique el nombre o la direccion
                     JOptionPane.showMessageDialog(null, "Debe introducir un nombre y una direccion", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -362,6 +366,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        //Permite borrar el transportista seleccionado
         int respuesta = JOptionPane.showConfirmDialog(null, "Esta seguro que quiere borrarlo");
         if (respuesta == 0) {
             try {
@@ -384,6 +389,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        //Abre la ventana para añadir un nuevo transportista
         entDNI.setBackground(null);
         entDNI.setText("");
         entApellidos.setText("");
@@ -398,11 +404,13 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void tablaTranportistasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaTranportistasMouseClicked
+        //Cuando se selecciona un transportista activa los botones de borrar y modificar
         btnBorrar.setEnabled(true);
         btnModificar.setEnabled(true);
     }//GEN-LAST:event_tablaTranportistasMouseClicked
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        //Abre la ventana para modificar el transportista seleccionado cargando sus datos
         int fila = tablaTranportistas.getSelectedRow();
         entDNI.setText((String) tablaTranportistas.getValueAt(fila, 0));
         entDNI.setEnabled(false);
@@ -417,6 +425,8 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        //En caso de cancelar un insercion o modificacion cirrar la ventana 
+        // y desactiva los botones de borrado y modificacion
         btnModificar.setEnabled(false);
         btnBorrar.setEnabled(false);
         jFrame1.setVisible(false);
@@ -425,10 +435,12 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        //Cierra la ventana para regresar a la ventana Principal
         this.setVisible(false);
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void entDnicomprobarDNI(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entDnicomprobarDNI
+        //Metodo que comprueba que el DNI introducido es correcto
         String nif = entDNI.getText();
         //si es NIE, eliminar la x,y,z inicial para tratarlo como nif
         if (nif.toUpperCase().startsWith("X") || nif.toUpperCase().startsWith("Y") || nif.toUpperCase().startsWith("Z")) {
@@ -455,6 +467,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
     }//GEN-LAST:event_entDnicomprobarDNI
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        //En caso de pulsar la 'x' de cerrar, vuelve a la ventana principal
         Ventana_Principal vp = new Ventana_Principal();
         vp.setVisible(true);
         this.setVisible(false);
@@ -467,6 +480,7 @@ public class Ventana_Transportistas extends javax.swing.JFrame {
     }//GEN-LAST:event_jFrame1ComponentHidden
 
     private void actualizar() {
+        //Metodo para mostrar los datos en las tablas
         try {
             DefaultTableModel model = (DefaultTableModel) tablaTranportistas.getModel();
             con.connect();

@@ -4,6 +4,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
     Conector con = new Conector();
     private boolean modificar = false;
     private int id;
-    String ruta="";
+    String ruta = "";
 
     public Ventana_Envios() {
         initComponents();
@@ -160,6 +161,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
 
         NMEnviosLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAceptar, btnCancelar});
 
+        setTitle("Envios");
         setMinimumSize(new java.awt.Dimension(500, 400));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {
@@ -350,10 +352,12 @@ public class Ventana_Envios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        //Vuelve a la ventana Principal
         this.setVisible(false);
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void tablaPendientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaPendientesMouseClicked
+        //Cuando se selecciona un envio pendiente se activa los botones de modificar,borrar y enviado
         btnBorrar.setEnabled(true);
         btnModificar.setEnabled(true);
         btnEnviado.setEnabled(true);
@@ -361,21 +365,23 @@ public class Ventana_Envios extends javax.swing.JFrame {
     }//GEN-LAST:event_tablaPendientesMouseClicked
 
     private void btnEnviadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviadoActionPerformed
+        //Marca el paquete seleccionado como enviado
         int respuesta = JOptionPane.showConfirmDialog(null, "¿El paquete ha sido enviado?");
         if (respuesta == 0) {
-        try {
-            con.connect();
-            int fila = tablaPendientes.getSelectedRow();
-            id = Integer.parseInt("" + tablaPendientes.getValueAt(fila, 0));
-            String sql = "UPDATE Envio SET \"Enviado\" = 'true' WHERE  \"ID\" = ?";
-            PreparedStatement consulta = con.conect.prepareStatement(sql);
-            consulta.setInt(1, id);
-            consulta.execute();
-            con.close();
-            actualizar();
-        } catch (SQLException ex) {
-            System.err.println(ex.getMessage());
-        }}
+            try {
+                con.connect();
+                int fila = tablaPendientes.getSelectedRow();
+                id = Integer.parseInt("" + tablaPendientes.getValueAt(fila, 0));
+                String sql = "UPDATE Envio SET \"Enviado\" = 'true' WHERE  \"ID\" = ?";
+                PreparedStatement consulta = con.conect.prepareStatement(sql);
+                consulta.setInt(1, id);
+                consulta.execute();
+                con.close();
+                actualizar();
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
         btnBorrar.setEnabled(false);
         btnModificar.setEnabled(false);
         btnEnviado.setEnabled(false);
@@ -384,51 +390,66 @@ public class Ventana_Envios extends javax.swing.JFrame {
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         try {
             if (!modificar) {
+                //Si se pulso el boton aceptar añade un nuevo envio
                 String dniCliente = (String) cmbCliente.getSelectedItem();
                 String dniTransportista = (String) cmbTransporte.getSelectedItem();
                 String direccion = entDestino.getText();
                 int peso = Integer.parseInt(entPeso.getText());
-                con.connect();
-                String sql = "insert into Envio(DNI_Cliente,DNI_Transportista,Peso,Destino) values (?,?,?,?)";
-                PreparedStatement consulta = con.conect.prepareStatement(sql);
-                consulta.setString(1, dniCliente);
-                consulta.setString(2, dniTransportista);
-                consulta.setInt(3, peso);
-                consulta.setString(4, direccion);
-                consulta.execute();
-                con.close();
-                entDestino.setText("");
-                entPeso.setText("");
-                actualizar();
+                if ((!dniCliente.isEmpty()) && (!dniTransportista.isEmpty())) {
+                    con.connect();
+                    String sql = "insert into Envio(DNI_Cliente,DNI_Transportista,Peso,Destino) values (?,?,?,?)";
+                    PreparedStatement consulta = con.conect.prepareStatement(sql);
+                    consulta.setString(1, dniCliente);
+                    consulta.setString(2, dniTransportista);
+                    consulta.setInt(3, peso);
+                    consulta.setString(4, direccion);
+                    consulta.execute();
+                    con.close();
+                    entDestino.setText("");
+                    entPeso.setText("");
+                    actualizar();
+                } else {
+                    //Muestra un error si no se selecciona un cliente o un transportista
+                    JOptionPane.showMessageDialog(null, "Debe seleccionar un Cliente y un Transportista", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             } else {
+                //Si se pulso el boton modificar permite modificar el envio seleccionado
                 con.connect();
                 String dniCliente = (String) cmbCliente.getSelectedItem();
                 String dniTransportista = (String) cmbTransporte.getSelectedItem();
                 String direccion = entDestino.getText();
                 int peso = Integer.parseInt(entPeso.getText());
-                String sql = "UPDATE Envio SET \"Peso\" = ?, \"Destino\" = ?, \"DNI_Transportista\" = ?, \"DNI_Cliente\" = ? WHERE  \"ID\" = ?";
-                PreparedStatement consulta = con.conect.prepareStatement(sql);
-                consulta.setInt(1, peso);
-                consulta.setString(2, direccion);
-                consulta.setString(3, dniTransportista);
-                consulta.setString(4, dniCliente);
-                consulta.setInt(5, id);
-                consulta.execute();
-                con.close();
-                actualizar();
-                this.setEnabled(true);
-                this.setVisible(true);
-                btnBorrar.setEnabled(false);
-                btnModificar.setEnabled(false);
-                btnEnviado.setEnabled(false);
-                NMEnvios.setVisible(false);
+                if ((!dniCliente.isEmpty()) && (!dniTransportista.isEmpty())) {
+                    String sql = "UPDATE Envio SET \"Peso\" = ?, \"Destino\" = ?, \"DNI_Transportista\" = ?, \"DNI_Cliente\" = ? WHERE  \"ID\" = ?";
+                    PreparedStatement consulta = con.conect.prepareStatement(sql);
+                    consulta.setInt(1, peso);
+                    consulta.setString(2, direccion);
+                    consulta.setString(3, dniTransportista);
+                    consulta.setString(4, dniCliente);
+                    consulta.setInt(5, id);
+                    consulta.execute();
+                    con.close();
+                    actualizar();
+                    this.setEnabled(true);
+                    this.setVisible(true);
+                    btnBorrar.setEnabled(false);
+                    btnModificar.setEnabled(false);
+                    btnEnviado.setEnabled(false);
+                    NMEnvios.setVisible(false);
+                } else {
+                    //Muestra un error si no se selecciona un cliente o un transportista
+                    JOptionPane.showMessageDialog(null, "Debe seleccionar un Cliente y un Transportista", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "El peso debe contener solo numeros", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        //Abre la ventana para añadir un nuevo envio
         rellenarComboBox();
         entPeso.setText("");
         entDestino.setText("");
@@ -442,6 +463,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        //Cancela la introducion o modificacion de un envio
         btnBorrar.setEnabled(false);
         btnModificar.setEnabled(false);
         btnEnviado.setEnabled(false);
@@ -451,6 +473,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        //Abre la ventana para modificar un envio cargando sus datos
         rellenarComboBox();
         int fila = tablaPendientes.getSelectedRow();
         id = Integer.parseInt("" + tablaPendientes.getValueAt(fila, 0));
@@ -465,6 +488,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        //Permite borrar un envio
         int respuesta = JOptionPane.showConfirmDialog(null, "Esta seguro que quiere borrarlo");
         if (respuesta == 0) {
             try {
@@ -487,6 +511,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        //Vuelve a la ventana principal
         Ventana_Principal vp = new Ventana_Principal();
         vp.setVisible(true);
         this.setVisible(false);
@@ -498,45 +523,59 @@ public class Ventana_Envios extends javax.swing.JFrame {
     }//GEN-LAST:event_NMEnviosComponentHidden
 
     private void btnFacturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFacturaActionPerformed
+        //Crea una factura de un envio que ya a sido entregado
         int fila = tablaEnviados.getSelectedRow();
-        
-        Document documento=new Document();
+
+        Document documento = new Document();
         FileOutputStream ficheroPDF;
-        String id="" + tablaEnviados.getValueAt(fila, 0);
-        try{
-            ruta="C:\\Users\\usuario\\Desktop\\Facturas\\Factura_"+id+".pdf";
-            ficheroPDF=new FileOutputStream(ruta);
+        String identificador = "" + tablaEnviados.getValueAt(fila, 0);
+        try {
+            ruta = "C:\\Users\\usuario\\Desktop\\Facturas\\Factura_" + identificador + ".pdf";
+            ficheroPDF = new FileOutputStream(ruta);
             PdfWriter.getInstance(documento, ficheroPDF).setInitialLeading(20);
-        }catch(Exception e){
-            
+        } catch (FileNotFoundException | DocumentException e) {
+            System.out.println(e.getMessage());
         }
-        try{
+        try {
             documento.open();
-            documento.add(new Paragraph("Factura "+id));
-            documento.add(new Paragraph(""));
-            
+            documento.add(new Paragraph("Factura " + identificador));
+            documento.add(new Paragraph(" "));
+            documento.add(new Paragraph(" "));
             //Crear tabla con numero de columnas
-            PdfPTable tabla=new PdfPTable(2);
+            PdfPTable tabla = new PdfPTable(2);
             con.connect();
             PreparedStatement consulta = con.conect.prepareStatement("select * from Clientes where DNI=?");
-            consulta.setString(1, (String)tablaEnviados.getValueAt(fila, 1));
-            ResultSet rs=consulta.executeQuery();
+            consulta.setString(1, (String) tablaEnviados.getValueAt(fila, 1));
+            ResultSet rs = consulta.executeQuery();
             //Añadir celda
-            tabla.addCell("DNI: "+rs.getString(1));
-            tabla.addCell("Nombre: "+rs.getString(2)+" "+rs.getString(3));
-            tabla.addCell("Direccion: "+rs.getString(4));
-            tabla.addCell("telefono: "+rs.getInt(5));
-            //3.5 + 2.5€/kg
+            tabla.addCell("DNI: " + rs.getString(1));
+            tabla.addCell("Nombre: " + rs.getString(2) + " " + rs.getString(3));
+            tabla.addCell("Direccion: " + rs.getString(4));
+            tabla.addCell("Telefono: " + rs.getInt(5));
+
             documento.add(tabla);
+            documento.add(new Paragraph(" "));
+            documento.add(new Paragraph(" "));
+            documento.add(new Paragraph("Cuantia fija: 3,50€"));
+            int peso = Integer.parseInt("" + tablaEnviados.getValueAt(fila, 3));
+            double cuantia = 2.50 * peso;
+            documento.add(new Paragraph("Cuantia variable: " + cuantia + " (2.50*peso)"));
+            documento.add(new Paragraph(" "));
+            double total = cuantia + 3.5;
+            documento.add(new Paragraph("Total factura: " + total + "€"));
+            rs.close();
             con.close();
             documento.close();
-            
+
         } catch (DocumentException ex) {
+            System.out.println(ex.getLocalizedMessage() + " document");
         } catch (SQLException ex) {
+            System.out.println(ex.getLocalizedMessage() + " sql");
         }
     }//GEN-LAST:event_btnFacturaActionPerformed
 
     private void tablaEnviadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEnviadosMouseClicked
+        //Cuando se seleciona un paquete ya enviado activa el boton para crear una factura
         btnFactura.setEnabled(true);
         btnBorrar.setEnabled(false);
         btnModificar.setEnabled(false);
@@ -593,7 +632,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
             System.out.println(ex.getMessage());
             con.close();
         }
-        //Mostrar datos envios entrgados
+        //Mostrar datos envios entregados
         try {
             DefaultTableModel model = (DefaultTableModel) tablaEnviados.getModel();
             con.connect();
@@ -619,6 +658,7 @@ public class Ventana_Envios extends javax.swing.JFrame {
     }
 
     private void rellenarComboBox() {
+        //Meetodo para llenar los JComboBox
         try {
             cmbCliente.removeAllItems(); //Vaciamos el JComboBox
             ArrayList<String> lista = new ArrayList<>();

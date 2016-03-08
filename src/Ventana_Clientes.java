@@ -46,7 +46,6 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         btnVolver = new javax.swing.JButton();
 
         jFrame1.setMinimumSize(new java.awt.Dimension(500, 400));
-        jFrame1.setPreferredSize(new java.awt.Dimension(500, 400));
         jFrame1.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {
                 jFrame1ComponentHidden(evt);
@@ -168,6 +167,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
 
         jFrame1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btAceptar, btnCancelar});
 
+        setTitle("Clientes");
         setMinimumSize(new java.awt.Dimension(450, 300));
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentHidden(java.awt.event.ComponentEvent evt) {
@@ -289,10 +289,12 @@ public class Ventana_Clientes extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
+        //Cierra la ventana y vuelve a la ventana principal
         this.setVisible(false);
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        //Abre la ventana para añadir un nuevo cliente
         entDni.setBackground(null);
         entDni.setText("");
         entApellidos.setText("");
@@ -308,6 +310,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        //Abre la ventana para modificar un cliente cargando sus datos
         int fila = tablaClientes.getSelectedRow();
         entDni.setText((String) tablaClientes.getValueAt(fila, 0));
         entDni.setEnabled(false);
@@ -323,6 +326,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        //Borra el cliente seleccionado
         int respuesta = JOptionPane.showConfirmDialog(null, "Esta seguro que quiere borrarlo");
         if (respuesta == 0) {
             try {
@@ -344,6 +348,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void tablaClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaClientesMouseClicked
+        //Activa los botones de borrar y modificar al seleccionar un cliente en la tabla
         btnBorrar.setEnabled(true);
         btnModificar.setEnabled(true);
     }//GEN-LAST:event_tablaClientesMouseClicked
@@ -351,6 +356,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
     private void btAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAceptarActionPerformed
         try {
             if (!modificar) {
+                //Si se pulso el boton nuevo añade un nuevo cliente
                 if (entDni.getBackground() == Color.GREEN) {
                     String dni = entDni.getText();
                     String apellidos = entApellidos.getText();
@@ -379,12 +385,15 @@ public class Ventana_Clientes extends javax.swing.JFrame {
                         entDni.setBackground(null);
                         actualizar();
                     } else {
+                        //Muestra un error si no se introduce un nombre o una direccion
                         JOptionPane.showMessageDialog(null, "Debe introducir un nombre y una direccion", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
+                    //Muestra un error si el DNI es incorrecto
                     JOptionPane.showMessageDialog(null, "Debe introducir un DNI valido", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
+                //Si se pulso el boton modificar permite modificar el cliente
                 con.connect();
                 String dni = entDni.getText();
                 String apellidos = entApellidos.getText();
@@ -422,6 +431,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btAceptarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        //Desactiva los botones de borrar y modificar y vuelve a la ventana de clientes
         btnModificar.setEnabled(false);
         btnBorrar.setEnabled(false);
         jFrame1.setVisible(false);
@@ -431,6 +441,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void entDnicomprobarDNI(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_entDnicomprobarDNI
+        //Comprueba que el DNI del cliente sea valido
         String nif = entDni.getText();
         //si es NIE, eliminar la x,y,z inicial para tratarlo como nif
         if (nif.toUpperCase().startsWith("X") || nif.toUpperCase().startsWith("Y") || nif.toUpperCase().startsWith("Z")) {
@@ -457,6 +468,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
     }//GEN-LAST:event_entDnicomprobarDNI
 
     private void formComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentHidden
+        //Vuelve a la ventana principal
         Ventana_Principal vp = new Ventana_Principal();
         vp.setVisible(true);
         this.setVisible(false);
@@ -468,6 +480,7 @@ public class Ventana_Clientes extends javax.swing.JFrame {
         this.setVisible(true);
     }//GEN-LAST:event_jFrame1ComponentHidden
     private void actualizar() {
+        //Metodo para mostrar los datos de los clientes en la tabla
         try {
             DefaultTableModel model = (DefaultTableModel) tablaClientes.getModel();
             con.connect();
